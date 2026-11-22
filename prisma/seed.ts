@@ -202,25 +202,44 @@ async function main() {
 
   console.log("Students and verification states seeded.");
 
-  // Helper to create image records
-  async function createPostImage(ownerId: string) {
+  // Helper to create image records with real photographic assets
+  async function createPostImage(ownerId: string, imageUrl?: string) {
+    let buffer = TINY_WEBP;
+    let mimeType = "image/webp";
+
+    if (imageUrl) {
+      try {
+        const res = await fetch(imageUrl);
+        if (res.ok) {
+          const ab = await res.arrayBuffer();
+          buffer = Buffer.from(ab);
+          mimeType = res.headers.get("content-type") || "image/jpeg";
+        }
+      } catch {
+        // Fallback to TINY_WEBP if offline during build/seed
+      }
+    }
+
     return prisma.image.create({
       data: {
         kind: ImageKind.POST,
         ownerId,
-        mimeType: "image/webp",
+        mimeType,
         width: 800,
         height: 600,
-        sizeBytes: TINY_WEBP.length,
-        data: TINY_WEBP,
-        thumb: TINY_WEBP,
+        sizeBytes: buffer.length,
+        data: buffer,
+        thumb: buffer,
       },
     });
   }
 
   // 5. Seed Diverse Posts
   // Post 1: FOUND Titan Watch (OPEN, has pending claim from Ananya)
-  const img1 = await createPostImage(student1.id);
+  const img1 = await createPostImage(
+    student1.id,
+    "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=800&q=80"
+  );
   const post1 = await prisma.post.create({
     data: {
       type: PostType.FOUND,
@@ -251,7 +270,10 @@ async function main() {
   });
 
   // Post 2: FOUND Dell 65W Charger (CLAIM_IN_PROGRESS, approved claim with 6-digit code for Priya)
-  const img2 = await createPostImage(student2.id);
+  const img2 = await createPostImage(
+    student2.id,
+    "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=800&q=80"
+  );
   const post2 = await prisma.post.create({
     data: {
       type: PostType.FOUND,
@@ -284,7 +306,10 @@ async function main() {
   });
 
   // Post 3: FOUND Leather Wallet (RETURNED, completed handover)
-  const img3 = await createPostImage(student4.id);
+  const img3 = await createPostImage(
+    student4.id,
+    "https://images.unsplash.com/photo-1627123424574-724758594e93?w=800&q=80"
+  );
   const post3 = await prisma.post.create({
     data: {
       type: PostType.FOUND,
@@ -316,7 +341,10 @@ async function main() {
   });
 
   // Post 4: LOST Casio Calculator (OPEN)
-  const img4 = await createPostImage(student1.id);
+  const img4 = await createPostImage(
+    student1.id,
+    "https://images.unsplash.com/photo-1594980596870-8aa52a78d8cd?w=800&q=80"
+  );
   const post4 = await prisma.post.create({
     data: {
       type: PostType.LOST,
@@ -335,7 +363,10 @@ async function main() {
   });
 
   // Post 5: LOST Blue Wildcraft Backpack (OPEN)
-  const img5 = await createPostImage(student3.id);
+  const img5 = await createPostImage(
+    student3.id,
+    "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&q=80"
+  );
   await prisma.post.create({
     data: {
       type: PostType.LOST,
@@ -354,7 +385,10 @@ async function main() {
   });
 
   // Post 6: FOUND Room Keys (OPEN)
-  const img6 = await createPostImage(student4.id);
+  const img6 = await createPostImage(
+    student4.id,
+    "https://images.unsplash.com/photo-1582139329536-e7284fece509?w=800&q=80"
+  );
   await prisma.post.create({
     data: {
       type: PostType.FOUND,
@@ -374,7 +408,10 @@ async function main() {
   });
 
   // Post 7: LOST College Student ID Card and Bus Pass (OPEN)
-  const img7 = await createPostImage(student2.id);
+  const img7 = await createPostImage(
+    student2.id,
+    "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&q=80"
+  );
   await prisma.post.create({
     data: {
       type: PostType.LOST,
@@ -393,7 +430,10 @@ async function main() {
   });
 
   // Post 8: FOUND Sony Headphones (OPEN)
-  const img8 = await createPostImage(student3.id);
+  const img8 = await createPostImage(
+    student3.id,
+    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80"
+  );
   await prisma.post.create({
     data: {
       type: PostType.FOUND,

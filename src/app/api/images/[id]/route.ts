@@ -11,10 +11,6 @@ export async function GET(
     const { id } = params;
     const session = await auth();
 
-    if (!session?.user) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
-
     const imageMeta = await prisma.image.findUnique({
       where: { id },
       select: {
@@ -31,45 +27,52 @@ export async function GET(
     }
 
     const { kind, ownerId, mimeType } = imageMeta;
-    const currentUserId = session.user.id;
-    const isAdmin = session.user.role === "ADMIN";
+    const currentUserId = session?.user?.id;
+    const isAdmin = session?.user?.role === "ADMIN";
 
     // Access control evaluation
     let isAllowed = false;
 
-    if (isAdmin || ownerId === currentUserId) {
-      isAllowed = true;
-    } else if (kind === "ID_CARD") {
-      isAllowed = false; // Strictly restricted to admin and owner
-    } else if (kind === "CLAIM_PROOF") {
-      // Allowed if viewer is the poster of the associated claim's post
-      const claim = await prisma.claim.findFirst({
-        where: { proofImageId: id },
-        select: {
-          post: {
-            select: { userId: true },
-          },
-        },
-      });
-      if (claim && claim.post.userId === currentUserId) {
-        isAllowed = true;
+    if (kind === "POST") {
+      // Post photos are public notice board items, visible to anyone browsing unless disabled
+      isAllowed = !session?.user || session.user.status !== "DISABLED";
+    } else {
+      // Sensitive images (ID_CARD, CLAIM_PROOF, CHAT) strictly require authentication
+      if (!session?.user) {
+        return new NextResponse("Unauthorized", { status: 401 });
       }
-    } else if (kind === "CHAT") {
-      // Allowed if viewer is participant in the conversation
-      const msg = await prisma.message.findFirst({
-        where: { attachmentImageId: id },
-        select: {
-          conversation: {
-            select: { userOneId: true, userTwoId: true },
-          },
-        },
-      });
-      if (msg && (msg.conversation.userOneId === currentUserId || msg.conversation.userTwoId === currentUserId)) {
+
+      if (isAdmin || (currentUserId && ownerId === currentUserId)) {
         isAllowed = true;
+      } else if (kind === "ID_CARD") {
+        isAllowed = false; // Strictly restricted to admin and owner
+      } else if (kind === "CLAIM_PROOF") {
+        // Allowed if viewer is the poster of the associated claim's post
+        const claim = await prisma.claim.findFirst({
+          where: { proofImageId: id },
+          select: {
+            post: {
+              select: { userId: true },
+            },
+          },
+        });
+        if (claim && claim.post.userId === currentUserId) {
+          isAllowed = true;
+        }
+      } else if (kind === "CHAT") {
+        // Allowed if viewer is participant in the conversation
+        const msg = await prisma.message.findFirst({
+          where: { attachmentImageId: id },
+          select: {
+            conversation: {
+              select: { userOneId: true, userTwoId: true },
+            },
+          },
+        });
+        if (msg && (msg.conversation.userOneId === currentUserId || msg.conversation.userTwoId === currentUserId)) {
+          isAllowed = true;
+        }
       }
-    } else if (kind === "POST") {
-      // Allowed for any active logged-in student
-      isAllowed = session.user.status !== "DISABLED";
     }
 
     if (!isAllowed) {
