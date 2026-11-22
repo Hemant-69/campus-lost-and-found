@@ -10,9 +10,6 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  border: 2.5px solid #231f1d;
-  border-radius: 24px;
-  box-shadow: 5px 5px 0 #231f1d;
 }
 
 .art {
@@ -114,9 +111,6 @@
     background-image: url('/images/paper-bg.webp');
     background-size: cover;
     background-position: center;
-    border: 2.5px solid #231f1d;
-    border-radius: 20px;
-    box-shadow: 4px 4px 0 #231f1d;
   }
   .copy {
     position: static;

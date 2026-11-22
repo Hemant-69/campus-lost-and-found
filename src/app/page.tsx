@@ -75,7 +75,7 @@ export default async function LandingPage() {
   return (
     <div className="space-y-16 sm:space-y-24 pb-16 overflow-x-hidden">
       {/* Hero Section - Hand-drawn Vector Artwork & Responsive Container Query Layout */}
-      <section className="w-full px-[40px] sm:px-[48px] lg:px-[64px] pt-4 sm:pt-6">
+      <section className="w-full">
         <HeroSection />
       </section>
 
