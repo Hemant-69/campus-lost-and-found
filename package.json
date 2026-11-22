@@ -13,7 +13,8 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "test:all": "vitest run && playwright test",
-    "test:compress": "tsx src/lib/__tests__/imageCompress.test.ts"
+    "test:compress": "tsx src/lib/__tests__/imageCompress.test.ts",
+    "build:manual": "tsx scripts/generateManualPdf.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
