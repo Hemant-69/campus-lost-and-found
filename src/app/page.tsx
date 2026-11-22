@@ -73,14 +73,14 @@ export default async function LandingPage() {
   }
 
   return (
-    <div className="space-y-16 sm:space-y-24 pb-16 overflow-x-hidden">
+    <div className="pb-16 overflow-x-hidden">
       {/* Hero Section - Hand-drawn Vector Artwork & Responsive Container Query Layout */}
       <section className="w-full">
         <HeroSection />
       </section>
 
       {/* Strip: Things students lose (Infinite Continuous Marquee on PC & Mobile) */}
-      <section className="bg-yellow border-y-3 border-ink py-6 overflow-hidden select-none" aria-label="Things students lose">
+      <section className="bg-yellow border-y-3 border-ink py-6 overflow-hidden select-none -mt-px relative z-10" aria-label="Things students lose">
         <div className="w-full overflow-hidden">
           <div className="animate-marquee flex items-center">
             {/* Primary Track */}
@@ -115,8 +115,10 @@ export default async function LandingPage() {
         </div>
       </section>
 
-      {/* How it works protocol */}
-      <section className="w-full px-4 sm:px-[48px] lg:px-[64px] space-y-12" id="how">
+      {/* Main Content Sections with Generous Spacing */}
+      <div className="space-y-16 sm:space-y-24 mt-16 sm:mt-24">
+        {/* How it works protocol */}
+        <section className="w-full px-4 sm:px-[48px] lg:px-[64px] space-y-12" id="how">
         <div className="space-y-3">
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-[44px] font-bold text-ink leading-tight">
             Three steps, and it is back with its owner
@@ -274,6 +276,7 @@ export default async function LandingPage() {
           </Link>
         </div>
       </section>
+      </div>
     </div>
   );
 }

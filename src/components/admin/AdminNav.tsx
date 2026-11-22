@@ -34,8 +34,8 @@ export function AdminNav() {
 
   return (
     <div className="border-b-2.5 border-ink bg-surface sticky top-0 z-30">
-      <div className="w-full px-[40px] sm:px-[48px] lg:px-[64px]">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between py-3 gap-3">
+      <div className="w-full px-4 sm:px-[48px] lg:px-[64px]">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between py-3.5 gap-3">
           <div className="flex items-center gap-2">
             <span className="font-serif font-bold text-xl sm:text-2xl text-ink">
               Campus Moderator Desk
@@ -45,7 +45,7 @@ export function AdminNav() {
             </span>
           </div>
 
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
+          <div className="flex items-center gap-2 overflow-x-auto py-1 scrollbar-none">
             {links.map((link) => {
               const Icon = link.icon;
               const isActive = link.exact
@@ -63,12 +63,12 @@ export function AdminNav() {
                     }
                   }}
                   className={clsx(
-                    "inline-flex items-center gap-1.5 px-3 py-1.5 text-xs sm:text-sm font-bold rounded-full whitespace-nowrap transition border-2 border-ink active:translate-x-[1px] active:translate-y-[1px]",
+                    "inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs sm:text-sm font-bold rounded-full whitespace-nowrap transition border-2 border-ink active:translate-x-[1px] active:translate-y-[1px]",
                     isActive
-                      ? "bg-yellow text-ink shadow-hard-btn -translate-y-0.5"
+                      ? "bg-yellow text-ink border-2.5 border-ink ring-2 ring-ink/10"
                       : isPending
                       ? "bg-sky/40 text-ink shadow-none animate-pulse"
-                      : "bg-surface text-ink hover:bg-paper"
+                      : "bg-surface text-ink hover:bg-paper hover:text-coral"
                   )}
                 >
                   {isPending ? (

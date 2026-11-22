@@ -35,7 +35,7 @@ export function SearchBar() {
         value={term}
         onChange={(e) => setTerm(e.target.value)}
         placeholder="Search items, keywords, or campus spots..."
-        className="w-full pl-10 pr-10 min-h-[48px] text-sm sm:text-base font-medium bg-surface border-2.5 border-ink rounded-input placeholder:text-ink-soft/60 text-ink shadow-hard-btn focus:outline-none focus:ring-2 focus:ring-sky transition"
+        className="w-full pl-10 pr-10 min-h-[42px] sm:min-h-[48px] text-xs sm:text-base font-medium bg-surface border-2 sm:border-2.5 border-ink rounded-input placeholder:text-ink-soft/60 text-ink shadow-hard-sm sm:shadow-hard-btn focus:outline-none focus:ring-2 focus:ring-sky transition"
       />
       {term && (
         <button

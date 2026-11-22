@@ -29,22 +29,22 @@ export default async function PostsPage({
   });
 
   return (
-    <div className="w-full px-4 sm:px-[48px] lg:px-[64px] py-8 sm:py-10 space-y-8">
+    <div className="w-full px-4 sm:px-[48px] lg:px-[64px] py-4 sm:py-10 space-y-5 sm:space-y-8">
       {/* Search and Filters Header */}
-      <div className="space-y-6">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="space-y-3.5 sm:space-y-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4">
           <div>
-            <h1 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-ink">
+            <h1 className="font-serif text-2xl sm:text-4xl font-bold tracking-tight text-ink">
               Campus Lost &amp; Found
             </h1>
-            <p className="text-sm text-ink-soft mt-1">
+            <p className="text-xs sm:text-sm text-ink-soft mt-0.5 sm:mt-1">
               Browse reported items, search campus spots, or filter by category
             </p>
           </div>
           <SearchBar />
         </div>
 
-        <div className="pt-2">
+        <div>
           <PostFilters />
         </div>
       </div>
