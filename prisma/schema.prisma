@@ -1,0 +1,377 @@
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  STUDENT
+  ADMIN
+}
+
+enum AccountStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+  DISABLED
+}
+
+enum PostType {
+  LOST
+  FOUND
+}
+
+enum PostCategory {
+  ELECTRONICS
+  ID_CARDS
+  BOOKS
+  KEYS
+  BAGS
+  CLOTHING
+  WALLET
+  OTHER
+}
+
+enum CampusLocation {
+  LIBRARY
+  CANTEEN
+  BLOCK_A
+  BLOCK_B
+  BLOCK_C
+  SPORTS_GROUND
+  AUDITORIUM
+  HOSTEL_BOYS
+  HOSTEL_GIRLS
+  MAIN_GATE
+  PARKING
+  OTHER
+}
+
+enum PostStatus {
+  OPEN
+  CLAIM_IN_PROGRESS
+  RETURNED
+  CLOSED
+}
+
+enum ClaimStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  NOT_SELECTED
+  MORE_INFO_REQUESTED
+}
+
+enum ImageKind {
+  POST
+  ID_CARD
+  CLAIM_PROOF
+  CHAT
+}
+
+enum ReportTargetType {
+  POST
+  COMMENT
+  USER
+}
+
+enum ReportReason {
+  SPAM
+  FAKE_POST
+  ABUSIVE
+  INAPPROPRIATE
+  SCAM_ATTEMPT
+  OTHER
+}
+
+enum ReportStatus {
+  OPEN
+  REVIEWED
+  ACTIONED
+}
+
+enum NotificationType {
+  VERIFICATION_APPROVED
+  VERIFICATION_REJECTED
+  CLAIM_RECEIVED
+  CLAIM_APPROVED
+  CLAIM_REJECTED
+  CLAIM_MORE_INFO
+  NEW_MESSAGE
+  COMMENT_RECEIVED
+  COMMENT_REPLY
+  HANDOVER_REMINDER
+  HANDOVER_EXPIRED
+  POST_TAKEDOWN
+}
+
+model User {
+  id                     String           @id @default(cuid())
+  name                   String
+  email                  String           @unique
+  passwordHash           String
+  rollNumber             String           @unique
+  department             String
+  year                   Int
+  role                   Role             @default(STUDENT)
+  status                 AccountStatus    @default(PENDING)
+
+  idVerification         IdVerification?
+  posts                  Post[]
+  claims                 Claim[]
+  comments               Comment[]
+  sentMessages           Message[]        @relation("SentMessages")
+  conversationsInitiated Conversation[]  @relation("ConversationUserOne")
+  conversationsReceived  Conversation[]  @relation("ConversationUserTwo")
+  notifications          Notification[]
+  reportsFiled           Report[]         @relation("Reporter")
+  reportsReceived        Report[]         @relation("ReportedUser")
+  auditLogs              AuditLog[]       @relation("AuditActor")
+  images                 Image[]          @relation("UserImages")
+  reviewedVerifications  IdVerification[] @relation("Reviewer")
+  reviewedReports        Report[]         @relation("ReportReviewer")
+
+  createdAt              DateTime         @default(now())
+  updatedAt              DateTime         @updatedAt
+  disabledAt             DateTime?
+
+  @@index([status])
+  @@index([role])
+}
+
+model IdVerification {
+  id              String        @id @default(cuid())
+  userId          String        @unique
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  imageId         String        @unique
+  image           Image         @relation(fields: [imageId], references: [id], onDelete: Restrict)
+  status          AccountStatus @default(PENDING)
+  reviewerId      String?
+  reviewer        User?         @relation("Reviewer", fields: [reviewerId], references: [id])
+  rejectionReason String?
+  reviewedAt      DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([status])
+}
+
+model Image {
+  id             String          @id @default(cuid())
+  kind           ImageKind
+  ownerId        String
+  owner          User            @relation("UserImages", fields: [ownerId], references: [id], onDelete: Cascade)
+  mimeType       String
+  width          Int
+  height         Int
+  sizeBytes      Int
+  data           Bytes
+  thumb          Bytes
+  createdAt      DateTime        @default(now())
+  deletedAt      DateTime?
+
+  idVerification IdVerification?
+  postImages     PostImage[]
+  claimProofs    Claim[]
+  chatMessages   Message[]
+
+  @@index([ownerId, kind])
+  @@index([createdAt])
+  @@index([deletedAt])
+}
+
+model Post {
+  id                 String          @id @default(cuid())
+  type               PostType
+  title              String
+  description        String
+  category           PostCategory
+  dateLostOrFound    DateTime
+  location           CampusLocation
+  locationDetail     String
+  status             PostStatus      @default(OPEN)
+  verificationDetail String?
+  isAutoHidden       Boolean         @default(false)
+  userId             String
+  user               User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  images             PostImage[]
+  claims             Claim[]
+  comments           Comment[]
+  conversations      Conversation[]
+  reports            Report[]
+
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+
+  @@index([status, type, category, createdAt])
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model PostImage {
+  id        String @id @default(cuid())
+  postId    String
+  post      Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  imageId   String
+  image     Image  @relation(fields: [imageId], references: [id], onDelete: Cascade)
+  sortOrder Int    @default(0)
+
+  @@unique([postId, imageId])
+  @@index([postId, sortOrder])
+}
+
+model Claim {
+  id                  String       @id @default(cuid())
+  postId              String
+  post                Post         @relation(fields: [postId], references: [id], onDelete: Cascade)
+  claimantId          String
+  claimant            User         @relation(fields: [claimantId], references: [id], onDelete: Cascade)
+  description         String
+  verificationAnswer  String
+  proofImageId        String?
+  proofImage          Image?       @relation(fields: [proofImageId], references: [id], onDelete: SetNull)
+  status              ClaimStatus  @default(PENDING)
+  rejectionReason     String?
+  handoverCode        String?
+  handoverDeadline    DateTime?
+  handoverCompletedAt DateTime?
+
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt
+
+  @@unique([postId, claimantId])
+  @@index([postId, status])
+  @@index([claimantId])
+}
+
+model Conversation {
+  id            String    @id @default(cuid())
+  postId        String
+  post          Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userOneId     String
+  userOne       User      @relation("ConversationUserOne", fields: [userOneId], references: [id], onDelete: Cascade)
+  userTwoId     String
+  userTwo       User      @relation("ConversationUserTwo", fields: [userTwoId], references: [id], onDelete: Cascade)
+  lastMessageAt DateTime  @default(now())
+
+  messages      Message[]
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@unique([postId, userOneId, userTwoId])
+  @@index([userOneId, lastMessageAt])
+  @@index([userTwoId, lastMessageAt])
+  @@index([postId])
+}
+
+model Message {
+  id                String       @id @default(cuid())
+  conversationId    String
+  conversation      Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  senderId          String
+  sender            User         @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  content           String
+  attachmentImageId String?
+  attachmentImage   Image?       @relation(fields: [attachmentImageId], references: [id], onDelete: SetNull)
+  isRead            Boolean      @default(false)
+  readAt            DateTime?
+
+  createdAt         DateTime     @default(now())
+
+  @@index([conversationId, createdAt])
+  @@index([senderId])
+}
+
+model Comment {
+  id        String    @id @default(cuid())
+  postId    String
+  post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  content   String
+  parentId  String?
+  parent    Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies   Comment[] @relation("CommentReplies")
+  reports   Report[]
+  isDeleted Boolean   @default(false)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([postId, createdAt])
+  @@index([parentId])
+}
+
+model Report {
+  id             String           @id @default(cuid())
+  reporterId     String
+  reporter       User             @relation("Reporter", fields: [reporterId], references: [id], onDelete: Cascade)
+  targetType     ReportTargetType
+  postId         String?
+  post           Post?            @relation(fields: [postId], references: [id], onDelete: SetNull)
+  commentId      String?
+  comment        Comment?         @relation(fields: [commentId], references: [id], onDelete: SetNull)
+  reportedUserId String?
+  reportedUser   User?            @relation("ReportedUser", fields: [reportedUserId], references: [id], onDelete: SetNull)
+  reason         ReportReason
+  note           String?
+  status         ReportStatus     @default(OPEN)
+  actionTaken    String?
+  reviewedById   String?
+  reviewedBy     User?            @relation("ReportReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+  reviewedAt     DateTime?
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@unique([reporterId, targetType, postId, commentId, reportedUserId])
+  @@index([status, createdAt])
+  @@index([postId])
+  @@index([commentId])
+  @@index([reportedUserId])
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      NotificationType
+  title     String
+  message   String
+  link      String
+  isRead    Boolean          @default(false)
+
+  createdAt DateTime         @default(now())
+
+  @@index([userId, isRead, createdAt])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String?
+  actor      User?    @relation("AuditActor", fields: [actorId], references: [id], onDelete: SetNull)
+  action     String
+  targetType String
+  targetId   String
+  details    String?
+  ipAddress  String?
+
+  createdAt  DateTime @default(now())
+
+  @@index([action, createdAt])
+  @@index([targetType, targetId])
+}
+
+model RateLimit {
+  key         String   @id
+  count       Int      @default(1)
+  windowStart DateTime @default(now())
+
+  @@index([windowStart])
+}
