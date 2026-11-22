@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import clsx from "clsx";
 import { CategoryDrawing } from "../illustrations/Illustrations";
 
@@ -18,12 +18,22 @@ export function SafeImage({
   fallbackAlt = "Notice Board Item",
   className,
   src: propSrc,
+  loading,
   ...props
 }: SafeImageProps) {
   const [hasError, setHasError] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
 
   const src = propSrc || (imageId ? `/api/images/${imageId}${variant === "thumb" ? "/thumb" : ""}` : "");
+
+  // If already complete (e.g. from browser cache or prefetch), check if it rendered properly
+  useEffect(() => {
+    if (imgRef.current && imgRef.current.complete) {
+      if (imgRef.current.naturalWidth === 0) {
+        setHasError(true);
+      }
+    }
+  }, [src]);
 
   if (!src || hasError) {
     return (
@@ -41,20 +51,15 @@ export function SafeImage({
   }
 
   return (
-    <div className={clsx("relative overflow-hidden bg-paper", className)}>
-      <img
-        src={src}
-        alt={props.alt || fallbackAlt}
-        loading="lazy"
-        decoding="async"
-        onError={() => setHasError(true)}
-        onLoad={() => setIsLoaded(true)}
-        className={clsx(
-          "w-full h-full object-cover transition-opacity duration-200",
-          isLoaded ? "opacity-100" : "opacity-0"
-        )}
-        {...props}
-      />
-    </div>
+    <img
+      ref={imgRef}
+      src={src}
+      alt={props.alt || fallbackAlt}
+      loading={loading || (variant === "thumb" ? "eager" : "lazy")}
+      decoding="async"
+      onError={() => setHasError(true)}
+      className={clsx("w-full h-full object-cover block", className)}
+      {...props}
+    />
   );
 }

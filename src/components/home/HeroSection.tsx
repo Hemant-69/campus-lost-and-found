@@ -193,7 +193,7 @@ export function HeroSection() {
       <div className={styles.copy}>
         <p className={styles.tag}>for students, by students</p>
         <h1 className={styles.title}>
-          Lost it? Found it? Pin<br className={styles.brDesktop} />
+          Lost it? Found it? Pin <br className={styles.brDesktop} />
           it here.
         </h1>
         <p className={styles.lede}>

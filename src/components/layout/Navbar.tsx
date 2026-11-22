@@ -26,26 +26,26 @@ export function Navbar({ user }: NavbarProps) {
       className="sticky top-0 z-30 bg-paper border-b-3 border-ink bg-cover bg-center"
       style={{ backgroundImage: "url('/images/paper-bg.webp')" }}
     >
-      <div className="w-full px-4 sm:px-[48px] lg:px-[64px] h-16 sm:h-20 flex items-center justify-between">
+      <div className="w-full px-4 sm:px-6 lg:px-[64px] h-16 sm:h-20 flex items-center justify-between gap-2 sm:gap-4">
         {/* Brand with Official Notice Board Logo */}
-        <Link href="/" className="flex items-center gap-3 group shrink-0" aria-label="Campus Lost and Found Home">
-          <BrandLogoMark size={38} className="shrink-0 transition-transform group-hover:rotate-[-4deg]" />
-          <div className="hidden sm:flex flex-col">
-            <span className="font-serif font-bold text-ink leading-tight text-lg sm:text-xl">
+        <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0" aria-label="Campus Lost and Found Home">
+          <BrandLogoMark size={36} className="shrink-0 transition-transform group-hover:rotate-[-4deg]" />
+          <div className="hidden sm:flex flex-col shrink-0">
+            <span className="font-serif font-bold text-ink leading-tight text-base sm:text-lg lg:text-xl whitespace-nowrap">
               Campus Lost &amp; Found
             </span>
-            <span className="font-hand text-xs sm:text-sm text-coral -mt-0.5 font-semibold">
+            <span className="font-hand text-xs sm:text-sm text-coral -mt-0.5 font-semibold hidden xl:block">
               Pin it here.
             </span>
           </div>
         </Link>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-7 text-[15px] font-semibold text-ink">
+        <nav className="hidden lg:flex items-center gap-5 xl:gap-7 text-sm xl:text-[15px] font-semibold text-ink whitespace-nowrap">
           <Link
             href="/posts"
             className={clsx(
-              "hover:text-coral transition pb-0.5",
+              "hover:text-coral transition pb-0.5 whitespace-nowrap",
               pathname === "/posts" ? "border-b-2.5 border-ink text-coral" : ""
             )}
           >
@@ -56,7 +56,7 @@ export function Navbar({ user }: NavbarProps) {
               <Link
                 href="/my-posts"
                 className={clsx(
-                  "hover:text-coral transition pb-0.5",
+                  "hover:text-coral transition pb-0.5 whitespace-nowrap",
                   pathname === "/my-posts" ? "border-b-2.5 border-ink text-coral" : ""
                 )}
               >
@@ -65,7 +65,7 @@ export function Navbar({ user }: NavbarProps) {
               <Link
                 href="/my-claims"
                 className={clsx(
-                  "hover:text-coral transition pb-0.5",
+                  "hover:text-coral transition pb-0.5 whitespace-nowrap",
                   pathname === "/my-claims" ? "border-b-2.5 border-ink text-coral" : ""
                 )}
               >
@@ -77,7 +77,7 @@ export function Navbar({ user }: NavbarProps) {
             <Link
               href="/admin"
               className={clsx(
-                "inline-flex items-center gap-1.5 text-ink font-semibold px-3 py-1 rounded-full bg-sky border-2 border-ink shadow-hard-btn hover:bg-sky-hover active:translate-x-[1px] active:translate-y-[1px]",
+                "inline-flex items-center gap-1.5 text-ink font-semibold px-3 py-1 rounded-full bg-sky border-2 border-ink shadow-hard-btn hover:bg-sky-hover active:translate-x-[1px] active:translate-y-[1px] whitespace-nowrap",
                 pathname.startsWith("/admin") ? "ring-2 ring-ink" : ""
               )}
             >
@@ -88,11 +88,11 @@ export function Navbar({ user }: NavbarProps) {
         </nav>
 
         {/* Action Controls & Auth */}
-        <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+        <div className="flex items-center gap-2 sm:gap-3 lg:gap-4 shrink-0">
           {user ? (
             <>
               <Link href="/posts/new">
-                <Button variant="accent" size="sm" className="hidden sm:inline-flex">
+                <Button variant="accent" size="sm" className="hidden sm:inline-flex whitespace-nowrap">
                   <Plus className="w-4 h-4 stroke-[2.5]" />
                   <span>Post item</span>
                 </Button>

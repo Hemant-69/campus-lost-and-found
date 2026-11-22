@@ -38,7 +38,7 @@ export function MobileNav({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
     <nav
       aria-label="Mobile Navigation"
-      className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-surface border-t-3 border-ink pt-2 pb-[max(0.6rem,env(safe-area-inset-bottom))] px-3 flex items-center justify-around"
+      className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-surface border-t-3 border-ink pt-2 pb-[max(0.6rem,env(safe-area-inset-bottom))] px-3 flex items-center justify-around"
     >
       {navItems.map((item) => {
         const Icon = item.icon;

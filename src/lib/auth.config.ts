@@ -51,7 +51,8 @@ export const authConfig: NextAuthConfig = {
         pathname.startsWith("/favicon.ico") ||
         pathname.startsWith("/api/auth") ||
         pathname.startsWith("/api/health") ||
-        pathname.startsWith("/api/cron")
+        pathname.startsWith("/api/cron") ||
+        pathname.startsWith("/api/images")
       ) {
         return true;
       }

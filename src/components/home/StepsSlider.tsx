@@ -54,6 +54,7 @@ export function StepsSlider() {
   const scrollToIndex = (index: number) => {
     if (!scrollRef.current) return;
     const cards = scrollRef.current.children;
+    // Account for alternating card & arrow elements on desktop if queried, but on mobile only cards are visible
     if (cards[index]) {
       (cards[index] as HTMLElement).scrollIntoView({
         behavior: "smooth",
@@ -86,54 +87,54 @@ export function StepsSlider() {
         </span>
       </div>
 
-      {/* Cards Slider (Mobile: Horizontal Snap Slide, Desktop: 3-Column Grid with Connector Arrows) */}
+      {/* Cards Slider (Mobile: Horizontal Snap Slide, Desktop & Tablet: Flex Row with Connector Arrows) */}
       <div
         ref={scrollRef}
-        className="flex md:grid md:grid-cols-3 gap-5 sm:gap-6 md:gap-8 lg:gap-12 overflow-x-auto md:overflow-visible snap-x snap-mandatory scroll-smooth pb-3 md:pb-0 -mx-4 px-4 sm:-mx-[48px] sm:px-[48px] md:mx-0 md:px-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+        className="flex md:flex-row md:items-stretch md:justify-between gap-5 sm:gap-6 md:gap-3 lg:gap-5 xl:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory scroll-smooth pb-3 md:pb-0 -mx-4 px-4 sm:-mx-6 sm:px-6 md:mx-0 md:px-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
       >
         {STEPS.map((step, idx) => (
-          <div
-            key={idx}
-            className="relative w-[82vw] max-w-[310px] sm:max-w-[340px] md:w-auto shrink-0 snap-center md:snap-align-none flex flex-col"
-          >
-            {/* Step Card */}
-            <div
-              className="w-full flex-1 bg-surface border-2.5 border-ink rounded-card p-6 sm:p-7 shadow-hard-card flex flex-col justify-between gap-6 transition-transform relative overflow-hidden bg-cover bg-center"
-              style={{ backgroundImage: "url('/images/paper-bg.webp')" }}
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center justify-start h-20">
-                  {step.renderIllustration()}
+          <React.Fragment key={idx}>
+            {/* Card Column */}
+            <div className="w-[82vw] max-w-[310px] sm:max-w-[340px] md:w-0 md:flex-1 shrink-0 snap-center md:snap-align-none flex flex-col">
+              <div
+                className="w-full h-full bg-surface border-2.5 border-ink rounded-card p-5 sm:p-6 lg:p-7 shadow-hard-card flex flex-col justify-between gap-4 sm:gap-6 transition-transform relative overflow-hidden bg-cover bg-center"
+                style={{ backgroundImage: "url('/images/paper-bg.webp')" }}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-start h-16 sm:h-20">
+                    {step.renderIllustration()}
+                  </div>
+                  <span className="font-hand text-lg sm:text-xl font-bold text-ink/40">
+                    step {step.number}
+                  </span>
                 </div>
-                <span className="font-hand text-xl font-bold text-ink/40">
-                  step {step.number}
-                </span>
-              </div>
 
-              <div className="space-y-2">
-                <h3 className="font-serif text-xl sm:text-2xl font-bold text-ink leading-snug">
-                  {step.title}
-                </h3>
-                <p className="text-sm sm:text-base text-ink-soft leading-relaxed">
-                  {step.description}
-                </p>
+                <div className="space-y-1.5 sm:space-y-2">
+                  <h3 className="font-serif text-lg sm:text-xl lg:text-2xl font-bold text-ink leading-snug">
+                    {step.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm lg:text-base text-ink-soft leading-relaxed">
+                    {step.description}
+                  </p>
+                </div>
               </div>
             </div>
 
-            {/* Desktop Connector Arrow between steps */}
+            {/* Sketched Connector Arrow between steps on Desktop & Tablet */}
             {idx < STEPS.length - 1 && (
               <div
-                className="hidden md:flex absolute top-1/2 -translate-y-1/2 -right-4 lg:-right-6 translate-x-1/2 z-20 pointer-events-none items-center justify-center"
+                className="hidden md:flex items-center justify-center shrink-0 self-center px-1"
                 aria-hidden="true"
               >
                 <svg
-                  viewBox="0 0 52 28"
-                  className="w-10 h-6 lg:w-12 lg:h-7 filter drop-shadow-[2px_2px_0_#231F20]"
+                  viewBox="0 0 54 30"
+                  className="w-8 h-4.5 md:w-9 md:h-5 lg:w-12 lg:h-7 pointer-events-none"
+                  style={{ filter: "drop-shadow(2px 2px 0px #231F20)" }}
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M 2 14 C 12 12, 26 12, 36 10 L 34 4 L 50 14 L 34 24 L 36 18 C 26 16, 12 16, 2 14 Z"
+                    d="M 2 15 C 14 13, 28 13, 38 10 L 36 3 L 54 15 L 36 27 L 38 20 C 28 17, 14 17, 2 15 Z"
                     fill="#F2B84B"
                     stroke="#231F20"
                     strokeWidth="2.5"
@@ -141,28 +142,28 @@ export function StepsSlider() {
                   />
                   {/* Hand-drawn texture hatches */}
                   <line
-                    x1="12"
+                    x1="14"
+                    y1="13"
+                    x2="18"
+                    y2="18"
+                    stroke="#231F20"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                  />
+                  <line
+                    x1="22"
                     y1="12"
-                    x2="16"
-                    y2="17"
+                    x2="26"
+                    y2="18"
                     stroke="#231F20"
                     strokeWidth="1.5"
                     strokeLinecap="round"
                   />
                   <line
-                    x1="20"
-                    y1="11"
-                    x2="24"
+                    x1="30"
+                    y1="12"
+                    x2="34"
                     y2="17"
-                    stroke="#231F20"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                  />
-                  <line
-                    x1="28"
-                    y1="11"
-                    x2="32"
-                    y2="16"
                     stroke="#231F20"
                     strokeWidth="1.5"
                     strokeLinecap="round"
@@ -170,7 +171,7 @@ export function StepsSlider() {
                 </svg>
               </div>
             )}
-          </div>
+          </React.Fragment>
         ))}
       </div>
 
