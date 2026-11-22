@@ -111,48 +111,42 @@
     background-image: url('/images/paper-bg.webp');
     background-size: cover;
     background-position: center;
+    padding-bottom: 24px;
   }
   .copy {
     position: static;
-    padding: 24px 20px 0;
+    padding: 20px 16px 0;
   }
   .tag {
-    font-size: 22px;
-    margin-bottom: 6px;
+    font-size: 20px;
+    margin-bottom: 4px;
   }
   .title {
-    font-size: clamp(30px, 9.5vw, 40px);
+    font-size: clamp(26px, 8.5vw, 36px);
     white-space: normal;
-    line-height: 1.05;
+    line-height: 1.08;
   }
   .brDesktop {
     display: none;
   }
   .lede {
-    font-size: 15px;
+    font-size: 14px;
     white-space: normal;
-    margin: 12px 0 20px;
+    margin: 8px 0 16px;
   }
   .btns {
-    gap: 12px;
+    gap: 10px;
     flex-direction: column;
   }
   .btn {
-    height: 48px;
-    padding: 0 22px;
-    font-size: 15px;
+    height: 46px;
+    padding: 0 20px;
+    font-size: 14px;
     border-width: 2.5px;
     box-shadow: 3px 3px 0 #231f1d;
     width: 100%;
   }
   .art {
-    position: static;
-    inset: auto;
-    width: 140.3%;
-    margin-left: -40.3%;
-    height: auto;
-    aspect-ratio: 2576 / 947;
-    margin-top: 12px;
-    order: 2;
+    display: none;
   }
 }

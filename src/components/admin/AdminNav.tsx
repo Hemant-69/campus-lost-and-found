@@ -1,12 +1,27 @@
 "use client";
 
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, UserCheck, Users, FileText, AlertOctagon, History } from "lucide-react";
+import {
+  LayoutDashboard,
+  UserCheck,
+  Users,
+  FileText,
+  AlertOctagon,
+  History,
+  Loader2,
+} from "lucide-react";
 import clsx from "clsx";
 
 export function AdminNav() {
   const pathname = usePathname();
+  const [pendingPath, setPendingPath] = useState<string | null>(null);
+
+  useEffect(() => {
+    // When route has updated, clear pending navigation state
+    setPendingPath(null);
+  }, [pathname]);
 
   const links = [
     { href: "/admin", label: "Overview", icon: LayoutDashboard, exact: true },
@@ -36,18 +51,31 @@ export function AdminNav() {
               const isActive = link.exact
                 ? pathname === link.href
                 : pathname.startsWith(link.href);
+              const isPending = pendingPath === link.href && !isActive;
+
               return (
                 <Link
                   key={link.href}
                   href={link.href}
+                  onClick={() => {
+                    if (!isActive) {
+                      setPendingPath(link.href);
+                    }
+                  }}
                   className={clsx(
-                    "inline-flex items-center gap-1.5 px-3 py-1.5 text-xs sm:text-sm font-bold rounded-full whitespace-nowrap transition border-2 border-ink",
+                    "inline-flex items-center gap-1.5 px-3 py-1.5 text-xs sm:text-sm font-bold rounded-full whitespace-nowrap transition border-2 border-ink active:translate-x-[1px] active:translate-y-[1px]",
                     isActive
                       ? "bg-yellow text-ink shadow-hard-btn -translate-y-0.5"
+                      : isPending
+                      ? "bg-sky/40 text-ink shadow-none animate-pulse"
                       : "bg-surface text-ink hover:bg-paper"
                   )}
                 >
-                  <Icon className="w-3.5 h-3.5 stroke-[2.5]" />
+                  {isPending ? (
+                    <Loader2 className="w-3.5 h-3.5 animate-spin text-coral" />
+                  ) : (
+                    <Icon className="w-3.5 h-3.5 stroke-[2.5]" />
+                  )}
                   <span>{link.label}</span>
                 </Link>
               );

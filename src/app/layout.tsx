@@ -7,6 +7,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { Footer } from "@/components/layout/Footer";
 import { VerificationBanner } from "@/components/layout/VerificationBanner";
+import { NavigationProgressBar } from "@/components/layout/NavigationProgressBar";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -58,6 +59,7 @@ export default async function RootLayout({
       className={`${inter.variable} ${fraunces.variable} ${caveat.variable}`}
     >
       <body className="min-h-screen flex flex-col font-sans bg-paper text-ink antialiased pb-20 md:pb-0">
+        <NavigationProgressBar />
         <Navbar user={session?.user || null} />
         {session?.user && (
           <VerificationBanner

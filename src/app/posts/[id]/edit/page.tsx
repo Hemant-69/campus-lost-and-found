@@ -43,7 +43,7 @@ export default async function EditPostPage({
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8 sm:py-12 space-y-6">
+    <div className="w-full px-4 sm:px-[48px] lg:px-[64px] py-8 sm:py-12 space-y-8">
       <div className="space-y-1">
         <p className="font-hand text-2xl text-coral font-semibold">update pinned note</p>
         <h1 className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-ink">
@@ -54,7 +54,7 @@ export default async function EditPostPage({
         </p>
       </div>
 
-      <div className="bg-surface rounded-card border-2.5 border-ink p-6 sm:p-8 shadow-hard-card">
+      <div className="bg-surface rounded-card border-2.5 border-ink p-6 sm:p-8 lg:p-10 shadow-hard-card">
         <EditPostForm post={post as any} />
       </div>
     </div>

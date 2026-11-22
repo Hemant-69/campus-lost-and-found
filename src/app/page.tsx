@@ -116,7 +116,7 @@ export default async function LandingPage() {
       </section>
 
       {/* How it works protocol */}
-      <section className="w-full px-[40px] sm:px-[48px] lg:px-[64px] space-y-12" id="how">
+      <section className="w-full px-4 sm:px-[48px] lg:px-[64px] space-y-12" id="how">
         <div className="space-y-3">
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-[44px] font-bold text-ink leading-tight">
             Three steps, and it is back with its owner
@@ -131,7 +131,7 @@ export default async function LandingPage() {
 
       {/* Dark Section: Built to keep spam out */}
       <section className="bg-dark-bg text-paper border-y-3 border-ink py-16 sm:py-24">
-        <div className="w-full px-[40px] sm:px-[48px] lg:px-[64px]">
+        <div className="w-full px-4 sm:px-[48px] lg:px-[64px]">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-12 sm:gap-16 items-center">
             {/* 3 Taped Sticky Notes */}
             <div className="relative min-h-[380px] hidden sm:flex flex-col justify-center" aria-hidden="true">
@@ -233,7 +233,7 @@ export default async function LandingPage() {
 
       {/* Recent Activity */}
       {recentPosts.length > 0 && (
-        <section className="w-full px-[40px] sm:px-[48px] lg:px-[64px] space-y-6">
+        <section className="w-full px-4 sm:px-[48px] lg:px-[64px] space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
               <h2 className="font-serif text-3xl sm:text-4xl font-bold text-ink">Recently Reported</h2>
@@ -257,7 +257,7 @@ export default async function LandingPage() {
       )}
 
       {/* Bottom Call to Action Card */}
-      <section className="w-full px-[40px] sm:px-[48px] lg:px-[64px]">
+      <section className="w-full px-4 sm:px-[48px] lg:px-[64px]">
         <div className="bg-yellow border-3 border-ink rounded-[32px] p-8 sm:p-14 shadow-hard-cta flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           <div className="space-y-2">
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-[42px] font-bold text-ink leading-tight">

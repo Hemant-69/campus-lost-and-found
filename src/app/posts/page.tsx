@@ -29,7 +29,7 @@ export default async function PostsPage({
   });
 
   return (
-    <div className="w-full px-[40px] sm:px-[48px] lg:px-[64px] py-8 sm:py-10 space-y-8">
+    <div className="w-full px-4 sm:px-[48px] lg:px-[64px] py-8 sm:py-10 space-y-8">
       {/* Search and Filters Header */}
       <div className="space-y-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">

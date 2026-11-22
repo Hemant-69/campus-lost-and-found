@@ -26,7 +26,7 @@ export function Navbar({ user }: NavbarProps) {
       className="sticky top-0 z-30 bg-paper border-b-3 border-ink bg-cover bg-center"
       style={{ backgroundImage: "url('/images/paper-bg.webp')" }}
     >
-      <div className="w-full px-[40px] sm:px-[48px] lg:px-[64px] h-16 sm:h-20 flex items-center justify-between">
+      <div className="w-full px-4 sm:px-[48px] lg:px-[64px] h-16 sm:h-20 flex items-center justify-between">
         {/* Brand with Official Notice Board Logo */}
         <Link href="/" className="flex items-center gap-3 group shrink-0" aria-label="Campus Lost and Found Home">
           <BrandLogoMark size={38} className="shrink-0 transition-transform group-hover:rotate-[-4deg]" />

@@ -6,6 +6,7 @@ import { Textarea } from "../ui/Textarea";
 import { addComment, deleteComment } from "@/app/actions/comments";
 import { CornerDownRight, Trash2, Flag, AlertCircle } from "lucide-react";
 import { ReportModal } from "./ReportModal";
+import { ConfirmModal } from "../ui/ConfirmModal";
 
 export interface CommentNode {
   id: string;
@@ -41,6 +42,8 @@ export function CommentSection({
   const [replyText, setReplyText] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [reportTargetId, setReportTargetId] = useState<string | null>(null);
+  const [commentToDeleteId, setCommentToDeleteId] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const handlePostComment = async (parentId?: string) => {
     const text = parentId ? replyText : newCommentText;
@@ -62,10 +65,12 @@ export function CommentSection({
     }
   };
 
-  const handleDelete = async (commentId: string) => {
-    if (confirm("Are you sure you want to remove this comment?")) {
-      await deleteComment(commentId);
-    }
+  const handleDeleteConfirm = async () => {
+    if (!commentToDeleteId) return;
+    setIsDeleting(true);
+    await deleteComment(commentToDeleteId);
+    setIsDeleting(false);
+    setCommentToDeleteId(null);
   };
 
   // Group top-level and replies
@@ -157,7 +162,7 @@ export function CommentSection({
                   <div className="flex items-center gap-1.5 text-ink-soft">
                     {isAuthor && !comment.isDeleted && (
                       <button
-                        onClick={() => handleDelete(comment.id)}
+                        onClick={() => setCommentToDeleteId(comment.id)}
                         className="p-1 hover:text-coral transition"
                         title="Delete comment"
                       >
@@ -243,7 +248,7 @@ export function CommentSection({
                             <div className="flex items-center gap-1 text-ink-soft">
                               {isReplyAuthor && !reply.isDeleted && (
                                 <button
-                                  onClick={() => handleDelete(reply.id)}
+                                  onClick={() => setCommentToDeleteId(reply.id)}
                                   className="p-0.5 hover:text-coral transition"
                                   title="Delete reply"
                                 >
@@ -272,6 +277,17 @@ export function CommentSection({
           })
         )}
       </div>
+
+      <ConfirmModal
+        isOpen={!!commentToDeleteId}
+        onClose={() => setCommentToDeleteId(null)}
+        onConfirm={handleDeleteConfirm}
+        title="Delete Comment"
+        description="Are you sure you want to remove this comment? This action cannot be undone."
+        confirmText="Delete"
+        variant="danger"
+        isLoading={isDeleting}
+      />
 
       {reportTargetId && (
         <ReportModal

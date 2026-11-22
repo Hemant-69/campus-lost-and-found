@@ -93,7 +93,7 @@ export default async function PostDetailPage({
   const approvedClaim = post.claims.find((c) => c.status === "APPROVED");
 
   return (
-    <div className="w-full px-[40px] sm:px-[48px] lg:px-[64px] py-8 sm:py-10 space-y-8">
+    <div className="w-full px-4 sm:px-[48px] lg:px-[64px] py-8 sm:py-10 space-y-8">
       {/* Back button & Status Banner */}
       <div className="flex items-center justify-between">
         <Link

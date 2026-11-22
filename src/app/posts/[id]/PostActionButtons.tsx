@@ -7,6 +7,7 @@ import { ClaimModal } from "@/components/post/ClaimModal";
 import { FoundReachoutModal } from "@/components/post/FoundReachoutModal";
 import { HandoverModal } from "@/components/post/HandoverModal";
 import { ReportModal } from "@/components/post/ReportModal";
+import { ConfirmModal } from "@/components/ui/ConfirmModal";
 import { closePost } from "@/app/actions/posts";
 import { startPostConversation } from "@/app/actions/chat";
 import { useRouter } from "next/navigation";
@@ -36,6 +37,8 @@ export function PostActionButtons({
   const [isFoundOpen, setIsFoundOpen] = useState(false);
   const [isHandoverOpen, setIsHandoverOpen] = useState(false);
   const [isReportOpen, setIsReportOpen] = useState(false);
+  const [isCloseModalOpen, setIsCloseModalOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const [isStartingChat, setIsStartingChat] = useState(false);
 
   const isOwner = currentUserId === post.userId;
@@ -50,11 +53,12 @@ export function PostActionButtons({
     }
   };
 
-  const handleClose = async () => {
-    if (confirm("Are you sure you want to close this post?")) {
-      await closePost(post.id);
-      router.refresh();
-    }
+  const handleCloseConfirm = async () => {
+    setIsClosing(true);
+    await closePost(post.id);
+    setIsClosing(false);
+    setIsCloseModalOpen(false);
+    router.refresh();
   };
 
   return (
@@ -123,7 +127,8 @@ export function PostActionButtons({
 
             <Button
               variant="outline"
-              onClick={handleClose}
+              onClick={() => setIsCloseModalOpen(true)}
+              disabled={isClosing}
               className="text-ink hover:text-coral"
             >
               <XCircle className="w-4 h-4 mr-1.5 stroke-[2.5]" />
@@ -147,6 +152,17 @@ export function PostActionButtons({
           </Button>
         )}
       </div>
+
+      <ConfirmModal
+        isOpen={isCloseModalOpen}
+        onClose={() => setIsCloseModalOpen(false)}
+        onConfirm={handleCloseConfirm}
+        title="Close Post"
+        description="Are you sure you want to close this post? This marks the item as resolved or inactive on the campus board."
+        confirmText="Close Post"
+        variant="primary"
+        isLoading={isClosing}
+      />
 
       <ClaimModal
         isOpen={isClaimOpen}

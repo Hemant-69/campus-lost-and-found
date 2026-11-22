@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { StatusLabel } from "@/components/ui/Badge";
 import { SafeImage } from "@/components/image/SafeImage";
 import { ImageZoomModal } from "@/components/image/ImageZoomModal";
+import { PromptModal } from "@/components/ui/PromptModal";
 import { reviewClaim } from "@/app/actions/claims";
 import { Check, X, MessageSquare } from "lucide-react";
 import { HandoverTicketIllustration } from "@/components/illustrations/Illustrations";
@@ -42,6 +43,7 @@ export function ClaimsTab({
   const router = useRouter();
   const [selectedProofImageId, setSelectedProofImageId] = useState<string | null>(null);
   const [processingClaimId, setProcessingClaimId] = useState<string | null>(null);
+  const [rejectClaimId, setRejectClaimId] = useState<string | null>(null);
 
   const handleReview = async (
     claimId: string,
@@ -177,10 +179,7 @@ export function ClaimsTab({
                     variant="danger"
                     size="sm"
                     isLoading={processingClaimId === claim.id}
-                    onClick={() => {
-                      const reason = prompt("Enter a reason for rejecting this claim (optional):");
-                      handleReview(claim.id, "REJECT", reason || undefined);
-                    }}
+                    onClick={() => setRejectClaimId(claim.id)}
                   >
                     <X className="w-4 h-4 mr-1.5 stroke-[2.5]" />
                     Reject
@@ -191,6 +190,25 @@ export function ClaimsTab({
           ))}
         </div>
       )}
+
+      {/* Reject Claim Modal */}
+      <PromptModal
+        isOpen={!!rejectClaimId}
+        onClose={() => setRejectClaimId(null)}
+        onSubmit={async (reason) => {
+          if (rejectClaimId) {
+            await handleReview(rejectClaimId, "REJECT", reason || undefined);
+            setRejectClaimId(null);
+          }
+        }}
+        title="Reject Ownership Claim"
+        description="Are you sure you want to reject this claim? You can optionally include an explanatory note for the claimant."
+        label="Reason for Rejection (Optional)"
+        placeholder="e.g. Serial number does not match, distinctive marks not confirmed..."
+        confirmText="Reject Claim"
+        variant="danger"
+        isLoading={!!processingClaimId && processingClaimId === rejectClaimId}
+      />
 
       {selectedProofImageId && (
         <ImageZoomModal

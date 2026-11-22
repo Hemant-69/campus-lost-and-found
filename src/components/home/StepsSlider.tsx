@@ -89,7 +89,7 @@ export function StepsSlider() {
       {/* Cards Slider (Mobile: Horizontal Snap Slide, Desktop: 3-Column Grid) */}
       <div
         ref={scrollRef}
-        className="flex md:grid md:grid-cols-3 gap-5 sm:gap-6 lg:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory scroll-smooth pb-3 md:pb-0 -mx-[40px] px-[40px] sm:-mx-[48px] sm:px-[48px] md:mx-0 md:px-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+        className="flex md:grid md:grid-cols-3 gap-5 sm:gap-6 lg:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory scroll-smooth pb-3 md:pb-0 -mx-4 px-4 sm:-mx-[48px] sm:px-[48px] md:mx-0 md:px-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
       >
         {STEPS.map((step, idx) => (
           <div
