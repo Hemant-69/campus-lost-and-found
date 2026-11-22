@@ -443,20 +443,29 @@ export function HandoverTicketIllustration({
   className?: string;
 }) {
   return (
-    <svg width={size} height={(size * 100) / 120} viewBox="0 0 120 100" className={className} aria-hidden="true">
-      <g stroke="#231F20" strokeWidth="3.5" strokeLinejoin="round">
-        <rect x="6" y="20" width="108" height="60" rx="10" fill="#F2B84B" />
-        <circle cx="6" cy="50" r="9" fill="#FFFFFF" />
-        <circle cx="114" cy="50" r="9" fill="#FFFFFF" />
-      </g>
+    <svg
+      width={size}
+      height={(size * 100) / 120}
+      viewBox="0 0 120 100"
+      className={className}
+      aria-hidden="true"
+    >
+      {/* Authentic ticket shape with smooth inward side cutout notches — no overlapping white circles */}
+      <path
+        d="M 18 22 H 102 A 8 8 0 0 1 110 30 V 42 A 8 8 0 0 0 110 58 V 70 A 8 8 0 0 1 102 78 H 18 A 8 8 0 0 1 10 70 V 58 A 8 8 0 0 0 10 42 V 30 A 8 8 0 0 1 18 22 Z"
+        fill="#F2B84B"
+        stroke="#231F20"
+        strokeWidth="3.5"
+        strokeLinejoin="round"
+      />
       <text
         x="60"
-        y="61"
+        y="58"
         textAnchor="middle"
         fontFamily="var(--font-fraunces), Georgia, serif"
         fontWeight="700"
-        fontSize="24"
-        letterSpacing="3"
+        fontSize="21"
+        letterSpacing="2.5"
         fill="#231F20"
       >
         {code}
