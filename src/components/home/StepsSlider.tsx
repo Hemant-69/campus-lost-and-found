@@ -54,7 +54,6 @@ export function StepsSlider() {
   const scrollToIndex = (index: number) => {
     if (!scrollRef.current) return;
     const cards = scrollRef.current.children;
-    // Account for alternating card & arrow elements on desktop if queried, but on mobile only cards are visible
     if (cards[index]) {
       (cards[index] as HTMLElement).scrollIntoView({
         behavior: "smooth",
@@ -87,15 +86,15 @@ export function StepsSlider() {
         </span>
       </div>
 
-      {/* Cards Slider (Mobile: Horizontal Snap Slide, Desktop & Tablet: Flex Row with Connector Arrows) */}
+      {/* Cards Slider (Mobile: Horizontal Snap Slide, Desktop & Tablet: Proportional Flex Row with Tight Connector Arrows) */}
       <div
         ref={scrollRef}
-        className="flex md:flex-row md:items-stretch md:justify-between gap-5 sm:gap-6 md:gap-3 lg:gap-5 xl:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory scroll-smooth pb-3 md:pb-0 -mx-4 px-4 sm:-mx-6 sm:px-6 md:mx-0 md:px-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+        className="flex md:flex-row md:items-stretch gap-4 sm:gap-5 md:gap-3 lg:gap-4 xl:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory scroll-smooth pb-3 md:pb-0 -mx-4 px-4 sm:-mx-6 sm:px-6 md:mx-0 md:px-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
       >
         {STEPS.map((step, idx) => (
           <React.Fragment key={idx}>
-            {/* Card Column */}
-            <div className="w-[82vw] max-w-[310px] sm:max-w-[340px] md:w-0 md:flex-1 shrink-0 snap-center md:snap-align-none flex flex-col">
+            {/* Card Column: fills available space proportionally on desktop without being artificially capped */}
+            <div className="w-[82vw] max-w-[310px] sm:max-w-[340px] md:max-w-none md:w-0 md:flex-1 shrink-0 snap-center md:snap-align-none flex flex-col">
               <div
                 className="w-full h-full bg-surface border-2.5 border-ink rounded-card p-5 sm:p-6 lg:p-7 shadow-hard-card flex flex-col justify-between gap-4 sm:gap-6 transition-transform relative overflow-hidden bg-cover bg-center"
                 style={{ backgroundImage: "url('/images/paper-bg.webp')" }}
@@ -123,12 +122,12 @@ export function StepsSlider() {
             {/* Sketched Connector Arrow between steps on Desktop & Tablet */}
             {idx < STEPS.length - 1 && (
               <div
-                className="hidden md:flex items-center justify-center shrink-0 self-center px-1"
+                className="hidden md:flex items-center justify-center shrink-0 self-center px-0.5"
                 aria-hidden="true"
               >
                 <svg
                   viewBox="0 0 54 30"
-                  className="w-8 h-4.5 md:w-9 md:h-5 lg:w-12 lg:h-7 pointer-events-none"
+                  className="w-8 h-4.5 md:w-10 md:h-5.5 lg:w-14 lg:h-7.5 pointer-events-none"
                   style={{ filter: "drop-shadow(2px 2px 0px #231F20)" }}
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
