@@ -15,6 +15,7 @@ import {
   ClothingIllustration,
 } from "@/components/illustrations/Illustrations";
 import { StepsSlider } from "@/components/home/StepsSlider";
+import { HeroSection } from "@/components/home/HeroSection";
 import { ArrowRight } from "lucide-react";
 
 export const revalidate = 60;
@@ -73,61 +74,9 @@ export default async function LandingPage() {
 
   return (
     <div className="space-y-16 sm:space-y-24 pb-16 overflow-x-hidden">
-      {/* Hero Section */}
+      {/* Hero Section - Hand-drawn Vector Artwork & Responsive Container Query Layout */}
       <section className="w-full px-[40px] sm:px-[48px] lg:px-[64px] pt-4 sm:pt-6">
-        <h1 className="sr-only">Campus Lost &amp; Found - Lost it? Found it? Pin it here.</h1>
-
-        {/* Hero Panoramic Banner - 100% exact match to official hand-drawn artwork */}
-        <div className="relative w-full overflow-hidden select-none">
-          <picture>
-            <source srcSet="/images/hero-banner@3x.jpg" media="(min-width: 1200px)" />
-            <source srcSet="/images/hero-banner@2x.jpg" media="(min-width: 640px)" />
-            <img
-              src="/images/hero-banner.jpg"
-              alt="Campus Lost & Found - for students, by students. Lost it? Found it? Pin it here."
-              className="w-full h-auto block"
-              draggable={false}
-            />
-          </picture>
-
-          {/* Interactive Clickable Overlay Buttons for Desktop & Tablet */}
-          <Link
-            href="/posts"
-            aria-label="Browse found items"
-            className="hidden sm:block absolute rounded-full transition-transform hover:scale-[1.03] active:scale-[0.97] focus-visible:outline-3 focus-visible:outline-sky"
-            style={{
-              left: "2.94%",
-              top: "59.46%",
-              width: "12.36%",
-              height: "7.43%",
-            }}
-          />
-          <Link
-            href="/posts/new"
-            aria-label="Post a lost item"
-            className="hidden sm:block absolute rounded-full transition-transform hover:scale-[1.03] active:scale-[0.97] focus-visible:outline-3 focus-visible:outline-sky"
-            style={{
-              left: "16.77%",
-              top: "59.46%",
-              width: "10.40%",
-              height: "7.43%",
-            }}
-          />
-        </div>
-
-        {/* Mobile Action Buttons (Full-width 48px touch targets below the banner on small screens) */}
-        <div className="flex sm:hidden flex-col gap-3 pt-4">
-          <Link href="/posts">
-            <Button variant="accent" size="lg" className="w-full">
-              Browse found items
-            </Button>
-          </Link>
-          <Link href="/posts/new">
-            <Button variant="outline" size="lg" className="w-full">
-              Post a lost item
-            </Button>
-          </Link>
-        </div>
+        <HeroSection />
       </section>
 
       {/* Strip: Things students lose (Infinite Continuous Marquee on PC & Mobile) */}
