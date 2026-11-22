@@ -22,7 +22,10 @@ export function Navbar({ user }: NavbarProps) {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-30 bg-paper border-b-3 border-ink">
+    <header
+      className="sticky top-0 z-30 bg-paper border-b-3 border-ink bg-cover bg-center"
+      style={{ backgroundImage: "url('/images/paper-bg.webp')" }}
+    >
       <div className="w-full px-[40px] sm:px-[48px] lg:px-[64px] h-16 sm:h-20 flex items-center justify-between">
         {/* Brand with Official Notice Board Logo */}
         <Link href="/" className="flex items-center gap-3 group shrink-0" aria-label="Campus Lost and Found Home">

@@ -3,7 +3,10 @@ import { BrandLogoMark } from "../illustrations/Illustrations";
 
 export function Footer() {
   return (
-    <footer className="bg-paper border-t-3 border-ink mt-auto py-10 text-ink text-sm">
+    <footer
+      className="bg-paper border-t-3 border-ink mt-auto py-10 text-ink text-sm bg-cover bg-center"
+      style={{ backgroundImage: "url('/images/paper-bg.webp')" }}
+    >
       <div className="w-full px-[40px] sm:px-[48px] lg:px-[64px] flex flex-col sm:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-3">
           <BrandLogoMark size={28} />

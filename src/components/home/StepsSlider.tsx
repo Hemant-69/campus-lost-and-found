@@ -94,7 +94,8 @@ export function StepsSlider() {
         {STEPS.map((step, idx) => (
           <div
             key={idx}
-            className="w-[82vw] max-w-[310px] sm:max-w-[340px] md:w-auto shrink-0 snap-center md:snap-align-none bg-surface border-2.5 border-ink rounded-card p-6 sm:p-7 shadow-hard-card flex flex-col justify-between gap-6 transition-transform"
+            className="w-[82vw] max-w-[310px] sm:max-w-[340px] md:w-auto shrink-0 snap-center md:snap-align-none bg-surface border-2.5 border-ink rounded-card p-6 sm:p-7 shadow-hard-card flex flex-col justify-between gap-6 transition-transform relative overflow-hidden bg-cover bg-center"
+            style={{ backgroundImage: "url('/images/paper-bg.webp')" }}
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center justify-start h-20">

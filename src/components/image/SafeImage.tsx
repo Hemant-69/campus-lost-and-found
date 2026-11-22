@@ -29,12 +29,13 @@ export function SafeImage({
     return (
       <div
         className={clsx(
-          "w-full h-full min-h-0 flex flex-col items-center justify-center bg-paper border-b-2.5 border-ink select-none p-2 sm:p-4",
+          "w-full h-full min-h-0 flex flex-col items-center justify-center bg-paper border-b-2.5 border-ink select-none p-2 sm:p-4 bg-cover bg-center",
           className
         )}
+        style={{ backgroundImage: "url('/images/paper-bg.webp')" }}
       >
-        <CategoryDrawing category={category} size={36} className="opacity-80 mb-0.5 sm:mb-1" />
-        <span className="text-[10px] sm:text-[11px] font-semibold text-ink-soft">No photo attached</span>
+        <CategoryDrawing category={category} size={36} className="opacity-90 mb-0.5 sm:mb-1" />
+        <span className="text-[10px] sm:text-[11px] font-bold text-ink">No photo attached</span>
       </div>
     );
   }

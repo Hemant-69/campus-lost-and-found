@@ -6,6 +6,10 @@
   html,
   body {
     background-color: #F7F0E3;
+    background-image: url('/images/paper-bg.webp');
+    background-repeat: repeat;
+    background-size: 1024px auto;
+    background-attachment: scroll;
     color: #231F20;
     font-family: var(--font-inter), system-ui, sans-serif;
     line-height: 1.6;
@@ -58,6 +62,15 @@
   transform: rotate(-3deg);
   z-index: 10;
   pointer-events: none;
+}
+
+/* Matching Watercolor Paper Texture for Cards & Containers */
+.bg-paper-texture {
+  background-color: #F7F0E3;
+  background-image: url('/images/paper-bg.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /* Infinite Marquee Animation for Notice Board strip */
