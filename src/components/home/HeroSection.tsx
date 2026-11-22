@@ -5,33 +5,19 @@ import styles from "./HeroSection.module.css";
 export function HeroSection() {
   return (
     <section className={styles.hero} aria-label="Campus Lost & Found Hero">
-      {/* Hand-drawn Vector Illustration Artwork from hero.html */}
+      {/* Crisp & Clear Hand-drawn Vector Illustration Artwork */}
       <svg
         className={styles.art}
         viewBox="0 0 2576 947"
         role="img"
         aria-label="Illustration of a college building with a note reading Found: blue bag, Library, 2nd floor, surrounded by lost items such as a key, umbrella, notebook, bottle, sneaker, backpack, mitten, sock and card"
+        shapeRendering="geometricPrecision"
       >
         <defs>
           <path id="sp" d="M0-24Q3-3 24 0Q3 3 0 24Q-3 3-24 0Q-3-3 0-24Z" />
-          <filter id="w" x="-1%" y="-1%" width="102%" height="102%">
-            <feTurbulence
-              type="fractalNoise"
-              baseFrequency=".012"
-              numOctaves={2}
-              seed={5}
-              result="n"
-            />
-            <feDisplacementMap in="SourceGraphic" in2="n" scale={4} />
-          </filter>
         </defs>
-        <path
-          d="M1181 97h.1M1254 44h.1M924 294h.1M946 207h.1M1446 49h.1M1369 129h.1M888 64h.1M1294 234h.1M921 143h.1M942 302h.1M1284 50h.1M1429 83h.1M1078 318h.1M913 315h.1M1449 223h.1M900 133h.1M897 305h.1M986 168h.1M1279 93h.1M1403 80h.1M1434 177h.1M1423 112h.1M955 317h.1M1434 116h.1M1231 69h.1M1410 52h.1M1427 50h.1M1483 125h.1M1358 292h.1M1287 180h.1M1326 319h.1M1314 205h.1M1156 147h.1M1034 144h.1M683 894h.1M907 868h.1M1106 775h.1M1059 747h.1M1223 637h.1M720 862h.1M1028 684h.1M950 677h.1M1100 815h.1M640 639h.1M1171 893h.1M921 774h.1M958 854h.1M1193 833h.1M670 647h.1M876 842h.1M666 631h.1M917 895h.1M1056 745h.1M995 777h.1M623 836h.1M963 686h.1M1225 659h.1M1105 630h.1M823 747h.1M732 726h.1M1007 800h.1M1108 641h.1M770 829h.1M1011 881h.1M884 670h.1M1040 881h.1M885 812h.1M967 794h.1M836 677h.1M684 690h.1M754 718h.1M838 606h.1M1096 693h.1M869 744h.1M1504 38h.1M1929 88h.1M1878 98h.1M2079 60h.1M1628 108h.1M2027 99h.1M2170 106h.1M1555 78h.1M2196 91h.1M1901 70h.1M468 880h.1M166 903h.1M470 795h.1M255 797h.1M273 892h.1M226 808h.1M408 793h.1M164 780h.1M640 818h.1M609 805h.1M1366 897h.1M1193 758h.1M1286 897h.1M1372 778h.1M1309 828h.1M1488 833h.1M1422 771h.1M1239 864h.1M1418 862h.1M1427 819h.1"
-          stroke="#8a6d3b"
-          strokeOpacity=".5"
-          strokeWidth="3.4"
-          strokeLinecap="round"
-        />
+
+        {/* Ambient Doodle Accents (Stars & Sparkles) */}
         <g stroke="#231f1d" strokeWidth="3.5" strokeLinecap="round" fill="none">
           <path d="M1469 86v32M1453 102h32M1340 243v28M1326 257h28M1041 301v28M1027 315h28M2336 357v28M2322 371h28M1489 776v28M1475 790h28M105 811v28M91 825h28" />
           <circle cx="2500" cy="330" r="6" />
@@ -47,8 +33,8 @@ export function HeroSection() {
         <use href="#sp" transform="translate(58 536)" fill="none" stroke="#c9c0ae" strokeWidth="2.5" />
         <use href="#sp" transform="translate(55 606) scale(.4)" fill="none" stroke="#231f1d" strokeWidth="5" />
 
+        {/* Crisp Vector Artwork Group (Clean, smooth, razor-sharp lines without rasterization filter) */}
         <g
-          filter="url(#w)"
           fill="none"
           stroke="#231f1d"
           strokeWidth="4.5"
@@ -75,12 +61,12 @@ export function HeroSection() {
           {/* house */}
           <path d="M1720 362L1985 235L2255 362Z" fill="#c8472b" strokeWidth="5" />
           <rect x="1757" y="362" width="465" height="313" fill="#93c4a5" strokeWidth="5" />
-          <g fill="#fff" strokeWidth="7">
-            <rect x="1810" y="400" width="80" height="88" />
-            <rect x="1945" y="400" width="83" height="88" />
-            <rect x="2093" y="400" width="83" height="88" />
-            <rect x="1810" y="534" width="80" height="86" />
-            <rect x="2093" y="534" width="83" height="86" />
+          <g fill="#fff" strokeWidth="6">
+            <rect x="1810" y="400" width="80" height="88" rx="6" />
+            <rect x="1945" y="400" width="83" height="88" rx="6" />
+            <rect x="2093" y="400" width="83" height="88" rx="6" />
+            <rect x="1810" y="534" width="80" height="86" rx="6" />
+            <rect x="2093" y="534" width="83" height="86" rx="6" />
           </g>
           <rect x="1935" y="515" width="107" height="80" rx="6" fill="#1d1a17" />
           <path d="M1663 675H2436" strokeWidth="5" />
@@ -158,13 +144,8 @@ export function HeroSection() {
           <path
             d="M768 608C810 612 860 590 893 570L880 560L930 543L912 600L902 588C860 610 810 632 768 628Z"
             fill="#f0c24a"
-            stroke="#8a6217"
+            stroke="#231f1d"
             strokeWidth="3.5"
-          />
-          <path
-            d="M790 616L860 590M800 624L880 596M850 598L900 565M905 580L918 560"
-            stroke="#b7851f"
-            strokeWidth="3"
           />
           {/* mitten, sock, card, grass */}
           <g transform="rotate(-28 1785 765)">
